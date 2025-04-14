@@ -43,9 +43,9 @@ const ContactFooter = () => {
                         </div>
                         <div className="mb-3">
                             <div className="input-group">
-                                <input type="email" aria-label="Email" className="form-control" placeholder="Email" name="email" required/>
+                                <input type="email" aria-label="Email" className="form-control" placeholder="Email" name="email"/>
                                 <span className="input-group-text">OR</span>
-                                <input type="phone" aria-label="Phone" className="form-control" placeholder="Phone" name="phone" required/>
+                                <input type="phone" aria-label="Phone" className="form-control" placeholder="Phone" name="phone"/>
                             </div>
                         </div>
                         <div className="form-floating mb-3">
