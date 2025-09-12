@@ -39,7 +39,7 @@ const websites = () => {
                             title={"Nithik Sajja Recipes"} 
                             disc={'"Delicious recipes that reflect my passion for cooking"'} 
                             link={"https://recipes.nithiksajja.com/"} 
-                            btnText={"Visit Website"}
+                            btnText={"Work In Progress"}
                         />
                     </>
                 }/>

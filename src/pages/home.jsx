@@ -3,7 +3,7 @@ import webBannerD from "../assets/websiteBannerD.png"
 import webBannerM from "../assets/websiteBannerM.png"
 import { Link } from 'react-router-dom'
 
-const Home = () => {
+const Home = () => { 
   return (
     <>
         <section className="pt-3 bannerBg">
