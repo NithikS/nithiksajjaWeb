@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from '../components/Card'
 import PageHeader from '../components/PageHeader'
 import CardSection from '../components/CardSection'
@@ -15,7 +14,7 @@ const websites = () => {
                     <>
                         {/* Link 1 */}
                         <Card 
-                            iconHTML={<i class="bi bi-youtube social-icon"></i>} 
+                            iconHTML={<i className="bi bi-youtube social-icon"></i>} 
                             title={"YouTube"} 
                             disc={"Check out my videos on YouTube"} 
                             link={"https://www.youtube.com/channel/UCp5uq3IFYIZgIBJ2a0mn0uQ"} 
@@ -23,11 +22,20 @@ const websites = () => {
                         />
                         {/* Link 2 */}
                         <Card 
-                            iconHTML={<i class="bi bi-github social-icon"></i>} 
+                            iconHTML={<i className="bi bi-github social-icon"></i>} 
                             title={"GitHub"} 
                             disc={"See my projects on GitHub"} 
                             link={"https://github.com/AvatarNit"} 
                             btnText={"Visit Profile"}
+                        />
+                        {/* Link 3 */}
+                        <Card 
+                            iconHTML={<i className="bi bi-person-lines-fill social-icon"></i>} 
+                            title={"Teacher Portfolio"} 
+                            disc={"Explore my education journey"} 
+                            link={"/teacherportfolio"} 
+                            btnText={"Visit Portfolio"}
+                            target_=''
                         />
                     </>
                 }/>

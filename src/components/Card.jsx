@@ -1,5 +1,5 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const Card = ({iconHTML,title="",disc="",link,btnText, target_="_blank"}) => {
   return (
@@ -12,6 +12,15 @@ const Card = ({iconHTML,title="",disc="",link,btnText, target_="_blank"}) => {
         </div>
     </div>
   )
+}
+
+Card.propTypes = {
+  iconHTML: PropTypes.node.isRequired,
+  title: PropTypes.string,
+  disc: PropTypes.string,
+  link: PropTypes.string.isRequired,
+  btnText: PropTypes.string.isRequired,
+  target_: PropTypes.string
 }
 
 export default Card

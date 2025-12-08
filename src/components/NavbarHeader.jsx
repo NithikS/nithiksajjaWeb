@@ -16,7 +16,7 @@ function navbar() {
                     <Link className="nav-link" to="/projects"><b>Projects</b></Link>
                     <Link className="nav-link" to="/links"><b>Links</b></Link>
                     <Link className="nav-link" to="/about"><b>About</b></Link>
-                    <Link className="nav-link btn btn-website" to="/contact" role="button"><b>Contact Me</b></Link>
+                    <Link className="nav-link btn btn-website ms-2" to="/contact" role="button"><b>Contact Me</b></Link>
                 </div>
             </div>
         </div>

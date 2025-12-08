@@ -288,22 +288,35 @@ body {
     padding: 0;
     margin: 0;
   }
-
+  
   #side-by-side-sections > section {
     padding: 0 !important;
     margin: 0;
   }
-
+  
   #skills {
     text-align: center;
     padding-bottom: 10px !important;
   }
-
+  
   .imageDD {
     position: fixed;
     top: 10px; /* Distance from the top of the screen */
     right: 0; /* Aligns the dropdown to the right side */
     padding-right: 10px;
   }
+  
+}
 
+/* Teacher Portfolio */
+
+#profileTeacherPic {
+  border: 10px solid var(--primary-logo-color-dark);
+  border-radius: 50%;
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
