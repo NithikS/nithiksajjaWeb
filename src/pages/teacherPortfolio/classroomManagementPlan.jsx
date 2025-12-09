@@ -15,7 +15,7 @@ const ClassroomManagementPlan = () => {
       <section className="mb-5">
         <h2 className="mt-4 mb-3 darkBlueText"><i className="bi bi-layout-text-window-reverse me-2 darkBlueText"></i>Classroom Set-up Map & Explanation</h2>
         <img src={classroomLayout} alt="Classroom Layout" className="img-fluid mb-3 rounded shadow p-5" />
-        <p>Because I am interested in being a Computer Science Teacher I am considering that all desks must have a computer</p>
+        <p>Since I&apos;m aiming to be a Computer Science teacher, of course I&apos;m assuming every desk comes with its very own computer!</p>
         <p>I designed my classroom using an inner and outer U-shape desk because it focuses on the student&apos;s attention to the front projector screen. It also allows for collaboration between students being next to each other but not too much that it leads to people being off task as seen in the pod tables. This design also allows the teacher to walk around the back of the classroom and can see the students&apos; screen for test taking etc. This seating will also promote classroom discussions because everyone can see each other. For choosing seats, I think seat changes will be made at the start of each unit and first seats are randomly assigned for the first 9 weeks and then students will be able to choose for the remaining 9 weeks. Then for the 2nd semester, it will be 5 weeks of assigned seats and then 13 weeks of choosing their own seats. I have seen this work in some of my classes, and it has worked well because many of the friends I have now were found by random seating, so you meet new people and not just stick to your regular group of friends.</p>
       </section>
 
@@ -84,7 +84,7 @@ const ClassroomManagementPlan = () => {
         <h2 className="mt-4 mb-3 darkBlueText"><i className="bi bi-calendar-check me-2 darkBlueText"></i>5 Things on the First Day of School</h2>
         <ul className="list-group list-group-flush">
           <li className="list-group-item mb-2">Introduce yourself with a teacher introduction PowerPoint</li>
-          <li className="list-group-item mb-2">Do an icebreaker activity to help students learn each other’s names</li>
+          <li className="list-group-item mb-2">Do an icebreaker activity to help students learn each other&apos;s names</li>
           <li className="list-group-item mb-2">Give a classroom tour, pointing out where materials, turn in tray, etc. are located</li>
           <li className="list-group-item mb-2">Show the daily agenda and explain how to use it</li>
           <li className="list-group-item mb-2">Go over the classroom rules and explain why each one is important</li>
