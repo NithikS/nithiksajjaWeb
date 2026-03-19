@@ -25,7 +25,7 @@ const websites = () => {
                             iconHTML={<i className="bi bi-github social-icon"></i>} 
                             title={"GitHub"} 
                             disc={"See my projects on GitHub"} 
-                            link={"https://github.com/AvatarNit"} 
+                            link={"https://github.com/NithikS"} 
                             btnText={"Visit Profile"}
                         />
                         {/* Link 3 */}
