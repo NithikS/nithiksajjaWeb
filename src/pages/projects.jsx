@@ -1,8 +1,8 @@
-import React from 'react'
 import SMNLogo from "../assets/SMNLogo.png"
 import SSNLogo from "../assets/SSNLogo.png"
 import recipesLogo from "../assets/recipesLogo.png"
 import HSRLogo from "../assets/HSRLogo.png"
+import RRLogo from "../assets/royal_rumble_logo.png"
 import Card from '../components/Card'
 import PageHeader from '../components/PageHeader'
 import CardSection from '../components/CardSection'
@@ -52,6 +52,15 @@ const websites = () => {
                             disc={"Information Website for Hoosier State Relays (HSR)"} 
                             link={"https://hsr.iatccc.org/"} 
                             btnText={"Visit Website"}
+                        />
+                        {/* Website 5 */}
+                        <Card
+                            iconHTML={<div className="d-flex justify-content-center"><img src={RRLogo} alt="RRLogo" className="website-icon" /></div>} 
+                            title={"Royal Rumble App"}
+                            disc={"Full-stack orientation management system for HSE"}
+                            link={"/projects/royal-rumble"}
+                            btnText={"Read Case Study"}
+                            target_={''}
                         />
                     </>
                 }/>

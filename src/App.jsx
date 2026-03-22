@@ -14,6 +14,7 @@ import ClassroomManagementPlan from './pages/teacherPortfolio/classroomManagemen
 import AboutMe from './pages/teacherPortfolio/aboutMe.jsx'
 import FieldExperience from './pages/teacherPortfolio/fieldExperience.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
+import RoyalRumbleProject from './pages/RoyalRumbleProject.jsx'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/teacherportfolio/classroom-management" element={<ClassroomManagementPlan />} />
         <Route path="/teacherportfolio/about" element={<AboutMe />} />
         <Route path="/teacherportfolio/field-experience" element={<FieldExperience />} />
+        <Route path="/projects/royal-rumble" element={<RoyalRumbleProject />} />
       </Routes>
       <ContactFooter />
     </Router>
