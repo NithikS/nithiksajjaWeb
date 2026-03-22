@@ -34,12 +34,13 @@ const websites = () => {
                             btnText={"Visit Website"}
                         />
                         {/* Website 3 */}
-                        <Card 
-                            iconHTML={<div className="d-flex justify-content-center"><img src={recipesLogo} alt="NithikSajjaRecipesLogo" className="website-icon" /></div>} 
-                            title={"Nithik Sajja Recipes"} 
-                            disc={'"Delicious recipes that reflect my passion for cooking"'} 
-                            link={"https://recipes.nithiksajja.com/"} 
-                            btnText={"Work In Progress"}
+                        <Card
+                            iconHTML={<div className="d-flex justify-content-center"><img src={RRLogo} alt="RRLogo" className="website-icon" /></div>} 
+                            title={"Royal Rumble App"}
+                            disc={"Full-stack orientation management system for HSE"}
+                            link={"/projects/royal-rumble"}
+                            btnText={"Read Case Study"}
+                            target_={''}
                         />
                     </>
                 }/>
@@ -54,13 +55,12 @@ const websites = () => {
                             btnText={"Visit Website"}
                         />
                         {/* Website 5 */}
-                        <Card
-                            iconHTML={<div className="d-flex justify-content-center"><img src={RRLogo} alt="RRLogo" className="website-icon" /></div>} 
-                            title={"Royal Rumble App"}
-                            disc={"Full-stack orientation management system for HSE"}
-                            link={"/projects/royal-rumble"}
-                            btnText={"Read Case Study"}
-                            target_={''}
+                        <Card 
+                            iconHTML={<div className="d-flex justify-content-center"><img src={recipesLogo} alt="NithikSajjaRecipesLogo" className="website-icon" /></div>} 
+                            title={"Nithik Sajja Recipes"} 
+                            disc={'"Delicious recipes that reflect my passion for cooking"'} 
+                            link={"https://recipes.nithiksajja.com/"} 
+                            btnText={"Work In Progress"}
                         />
                     </>
                 }/>
