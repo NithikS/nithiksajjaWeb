@@ -290,10 +290,8 @@ const RoyalRumbleProject = () => {
         <div className="container">
           <div className="row text-center text-white justify-content-center">
             {[
-              { num: "8+", label: "Months of Development" },
               { num: "6", label: "User Roles" },
               { num: "600+", label: "Students Managed" },
-              { num: "30+", label: "Hours in February Alone" },
               { num: "12+", label: "DB Tables" },
               // { num: "1", label: "Live Deployment" },
             ].map((s) => (
