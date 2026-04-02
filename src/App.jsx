@@ -15,7 +15,17 @@ import AboutMe from './pages/teacherPortfolio/aboutMe.jsx'
 import FieldExperience from './pages/teacherPortfolio/fieldExperience.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import RoyalRumbleProject from './pages/RoyalRumbleProject.jsx'
+import LessonsHub from './pages/teacherPortfolio/LessonsHub.jsx'
+import DecisionMatrixLesson from './pages/teacherPortfolio/DecisionMatrixLesson.jsx'
+import PLTWSkimmersLesson from './pages/teacherPortfolio/PLTWSkimmersLesson.jsx'
 
+import ExperiencesHub from './pages/teacherPortfolio/ExperiencesHub.jsx'
+import DayInTheLife from './pages/teacherPortfolio/DayInTheLife.jsx'
+import FJHObservation from './pages/teacherPortfolio/FJHObservation.jsx'
+import SROShadow from './pages/teacherPortfolio/SROShadow.jsx'
+import MaryPoppinsObservation from './pages/teacherPortfolio/MaryPoppinsObservation.jsx'
+import AIInClassroom from './pages/teacherPortfolio/AIInClassroom.jsx'
+import FinalReflection from './pages/teacherPortfolio/FinalReflection.jsx'
 function App() {
 
   return (
@@ -34,6 +44,16 @@ function App() {
         <Route path="/teacherportfolio/about" element={<AboutMe />} />
         <Route path="/teacherportfolio/field-experience" element={<FieldExperience />} />
         <Route path="/projects/royal-rumble" element={<RoyalRumbleProject />} />
+        <Route path="/teacherportfolio/lessons" element={<LessonsHub />} />
+        <Route path="/teacherportfolio/lessons/decision-matrix" element={<DecisionMatrixLesson />} />
+        <Route path="/teacherportfolio/lessons/pltw-skimmers" element={<PLTWSkimmersLesson />} />
+        <Route path="/teacherportfolio/experiences" element={<ExperiencesHub />} />
+        <Route path="/teacherportfolio/experiences/day-in-the-life" element={<DayInTheLife />} />
+        <Route path="/teacherportfolio/experiences/fjh-observation" element={<FJHObservation />} />
+        <Route path="/teacherportfolio/experiences/sro-shadow" element={<SROShadow />} />
+        <Route path="/teacherportfolio/experiences/mary-poppins" element={<MaryPoppinsObservation />} />
+        <Route path="/teacherportfolio/experiences/ai-in-classroom" element={<AIInClassroom />} />
+        <Route path="/teacherportfolio/final-reflection" element={<FinalReflection />} />
       </Routes>
       <ContactFooter />
     </Router>
