@@ -4,6 +4,8 @@ import collage1 from "../../assets/fieldPic1.jpg";
 import collage2 from "../../assets/fieldPic2.jpg";
 import collage3 from "../../assets/fieldPic3.jpg";
 import collage4 from "../../assets/fieldPic4.jpg";
+import collage5 from "../../assets/fieldPic5.jpeg";
+import collage6 from "../../assets/fieldPic6.jpeg";
 
 const FieldExperience = () => {
   return (
@@ -99,8 +101,8 @@ const FieldExperience = () => {
             {/* New Row 3 */}
             <div style={{ flex: "1 1 35%", minWidth: "150px" }}>
               <img 
-                src="https://via.placeholder.com/400x300" 
-                alt="Placeholder 5" 
+                src={collage5} 
+                alt="Field experience 5" 
                 className="img-fluid rounded shadow"
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}
               />
@@ -108,27 +110,8 @@ const FieldExperience = () => {
 
             <div style={{ flex: "1 1 60%", minWidth: "200px" }}>
               <img 
-                src="https://via.placeholder.com/600x300" 
-                alt="Placeholder 6" 
-                className="img-fluid rounded shadow"
-                style={{ objectFit: "cover", width: "100%", height: "100%" }}
-              />
-            </div>
-
-            {/* New Row 4 */}
-            <div style={{ flex: "1 1 50%", minWidth: "180px" }}>
-              <img 
-                src="https://via.placeholder.com/500x400" 
-                alt="Placeholder 7" 
-                className="img-fluid rounded shadow"
-                style={{ objectFit: "cover", width: "100%", height: "100%" }}
-              />
-            </div>
-
-            <div style={{ flex: "1 1 45%", minWidth: "180px" }}>
-              <img 
-                src="https://via.placeholder.com/400x400" 
-                alt="Placeholder 8" 
+                src={collage6} 
+                alt="Field experience 6" 
                 className="img-fluid rounded shadow"
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}
               />
