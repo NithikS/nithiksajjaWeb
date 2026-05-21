@@ -293,7 +293,7 @@ const RoyalRumbleProject = () => {
               { num: "6", label: "User Roles" },
               { num: "600+", label: "Students Managed" },
               { num: "12+", label: "DB Tables" },
-              // { num: "1", label: "Live Deployment" },
+              { num: "1", label: "Live Deployment" },
             ].map((s) => (
               <div className="col-4 col-md-2 mb-3 mb-md-0" key={s.label}>
                 <h3 className="darkGreenText fw-bold mb-0">{s.num}</h3>
@@ -333,14 +333,14 @@ const RoyalRumbleProject = () => {
                 >
                   <i className="bi bi-github me-2"></i>View on GitHub
                 </a>
-                {/* <a
-                  href="https://www.royalrumble.hseapps.org"
+                <a
+                  href="https://hseroyalrumble.com"
                   target="_blank"
                   rel="noreferrer"
                   className="btn darkGreenBg iconGreen"
                 >
                   <i className="bi bi-box-arrow-up-right me-2"></i>Live Site
-                </a> */}
+                </a>
               </div>
             </div>
             <div className="col-lg-5">
@@ -747,14 +747,14 @@ const RoyalRumbleProject = () => {
                 >
                   <i className="bi bi-github me-2"></i>View Code on GitHub
                 </a>
-                {/* <a
-                  href="https://www.royalrumble.hseapps.org"
+                <a
+                  href="https://hseroyalrumble.com"
                   target="_blank"
                   rel="noreferrer"
                   className="btn darkGreenBg iconGreen"
                 >
                   <i className="bi bi-box-arrow-up-right me-2"></i>Live Site
-                </a> */}
+                </a>
               </div>
             </div>
           </div>
