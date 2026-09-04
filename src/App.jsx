@@ -26,6 +26,12 @@ import SROShadow from './pages/teacherPortfolio/SROShadow.jsx'
 import MaryPoppinsObservation from './pages/teacherPortfolio/MaryPoppinsObservation.jsx'
 import AIInClassroom from './pages/teacherPortfolio/AIInClassroom.jsx'
 import FinalReflection from './pages/teacherPortfolio/FinalReflection.jsx'
+
+function HseServiceRedirect() {
+  window.location.replace('https://forms.cloud.microsoft/r/feHHmVp2iH')
+  return null
+}
+
 function App() {
 
   return (
@@ -54,6 +60,7 @@ function App() {
         <Route path="/teacherportfolio/experiences/mary-poppins" element={<MaryPoppinsObservation />} />
         <Route path="/teacherportfolio/experiences/ai-in-classroom" element={<AIInClassroom />} />
         <Route path="/teacherportfolio/final-reflection" element={<FinalReflection />} />
+        <Route path="/hseservice" element={<HseServiceRedirect />} />
       </Routes>
       <ContactFooter />
     </Router>
