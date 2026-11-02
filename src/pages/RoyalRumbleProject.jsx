@@ -740,7 +740,7 @@ const RoyalRumbleProject = () => {
               </p>
               <div className="mt-4 d-flex flex-wrap gap-3 justify-content-center">
                 <a
-                  href="https://github.com/AvatarNit/royal_rumble_app"
+                  href="https://github.com/HSE-Apps-Team/royal_rumble_app/tree/master"
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-website"
