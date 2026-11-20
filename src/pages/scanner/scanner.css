@@ -134,6 +134,29 @@
   to { transform: scale(1); }
 }
 
+/* Roster on/off switch: bigger for touch, brand color when on */
+.scanner-switch {
+  padding-left: 4.25em;
+}
+
+.scanner-switch .form-check-input {
+  width: 3.25em;
+  height: 1.75em;
+  margin-top: 0;
+  margin-left: -4.25em;
+  cursor: pointer;
+}
+
+.scanner-switch .form-check-input:checked {
+  background-color: var(--primary-logo-color-dark);
+  border-color: var(--primary-logo-color-dark);
+}
+
+.scanner-switch .form-check-label {
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
 .scanner-count-row {
   display: flex;
   gap: 1rem;

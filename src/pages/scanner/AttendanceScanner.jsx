@@ -22,6 +22,7 @@ import './scanner.css'
 
 const CHECK_INS_STORAGE_KEY = 'attendanceScanner.checkIns'
 const ROSTER_STORAGE_KEY = 'attendanceScanner.roster'
+const USE_ROSTER_STORAGE_KEY = 'attendanceScanner.useRoster'
 
 // A card held in front of the camera gets read many times per second.
 // Ignore repeat reads of the same ID inside this window.
@@ -39,8 +40,29 @@ function loadSavedList(storageKey) {
   }
 }
 
+// The roster switch is on unless it was turned off on this device before.
+function loadUseRosterSetting() {
+  return localStorage.getItem(USE_ROSTER_STORAGE_KEY) !== 'false'
+}
+
+function hasName(person) {
+  return Boolean(person.firstName || person.lastName)
+}
+
+// Show the name, or the ID if there is no name (roster switched off).
 function fullName(person) {
-  return `${person.firstName} ${person.lastName}`.trim()
+  return hasName(person) ? `${person.firstName} ${person.lastName}`.trim() : `ID ${person.id}`
+}
+
+// Mark which check ins are on the roster. Check ins saved without a name
+// (while the roster switch was off) get the name from the roster.
+function matchCheckInsToRoster(checkIns, roster) {
+  return checkIns.map((checkIn) => {
+    const rosterMember = findRosterMember(roster, checkIn.id)
+    if (!rosterMember) return { ...checkIn, onRoster: false }
+    if (hasName(checkIn)) return { ...checkIn, onRoster: true }
+    return { ...checkIn, firstName: rosterMember.firstName, lastName: rosterMember.lastName, onRoster: true }
+  })
 }
 
 // Ask before doing something destructive. Uses SweetAlert2 (loaded in index.html) when available.
@@ -80,6 +102,7 @@ function describeCameraError(error) {
 const AttendanceScanner = () => {
   const [roster, setRoster] = useState(() => loadSavedList(ROSTER_STORAGE_KEY))
   const [checkIns, setCheckIns] = useState(() => loadSavedList(CHECK_INS_STORAGE_KEY))
+  const [useRoster, setUseRoster] = useState(loadUseRosterSetting)
   const [cameraChoice, setCameraChoice] = useState('environment')
   const [detectedCameras, setDetectedCameras] = useState([])
   const [isScanning, setIsScanning] = useState(false)
@@ -102,6 +125,10 @@ const AttendanceScanner = () => {
   useEffect(() => {
     localStorage.setItem(ROSTER_STORAGE_KEY, JSON.stringify(roster))
   }, [roster])
+
+  useEffect(() => {
+    localStorage.setItem(USE_ROSTER_STORAGE_KEY, String(useRoster))
+  }, [useRoster])
 
   const showStatus = (type, text) => {
     setStatusMessage({ type, text, shownAt: Date.now() })
@@ -155,6 +182,15 @@ const AttendanceScanner = () => {
       showStatus('warning', `Already checked in: ${fullName(existingCheckIn)}`)
       showFlash('warning')
       playBeep(330, 0.25)
+      return
+    }
+
+    // Roster switched off: check in right away with just the ID.
+    if (!useRoster) {
+      addCheckIn({ id: scannedId, firstName: '', lastName: '' }, false)
+      showStatus('success', `Checked in: ID ${scannedId}`)
+      showFlash('success')
+      playBeep(880, 0.15)
       return
     }
 
@@ -247,12 +283,7 @@ const AttendanceScanner = () => {
         const newRoster = parseRosterCsv(String(reader.result))
         setRoster(newRoster)
         // Anyone already checked in who is on the new roster now counts as on roster.
-        setCheckIns((previous) =>
-          previous.map((checkIn) => ({
-            ...checkIn,
-            onRoster: findRosterMember(newRoster, checkIn.id) !== null,
-          }))
-        )
+        setCheckIns((previous) => matchCheckInsToRoster(previous, newRoster))
         showStatus('info', `Roster loaded: ${newRoster.length} members from ${file.name}.`)
       } catch (error) {
         showStatus('danger', `Could not read roster: ${error.message}`)
@@ -274,10 +305,23 @@ const AttendanceScanner = () => {
     showStatus('info', 'Roster removed.')
   }
 
+  const handleUseRosterChange = (event) => {
+    const turnedOn = event.target.checked
+    setUseRoster(turnedOn)
+    if (turnedOn) {
+      // Fill in names for anyone scanned while the roster was off.
+      setCheckIns((previous) => matchCheckInsToRoster(previous, roster))
+      showStatus('info', roster.length > 0 ? 'Roster on.' : 'Roster on. Upload a roster CSV, or scans will ask for a name.')
+    } else {
+      showStatus('info', 'Roster off. Scans check in right away with just the ID.')
+    }
+  }
+
   const clearSession = async () => {
+    const rosterNote = useRoster && roster.length > 0 ? ' The roster stays loaded.' : ''
     const confirmed = await confirmAction(
       'Clear this session?',
-      `This deletes all ${checkIns.length} check ins on this device. Export first if you need them. The roster stays loaded.`,
+      `This deletes all ${checkIns.length} check ins on this device. Export first if you need them.${rosterNote}`,
       'Clear session'
     )
     if (!confirmed) return
@@ -286,16 +330,29 @@ const AttendanceScanner = () => {
     showStatus('info', 'Session cleared.')
   }
 
+  // With the roster off, names are only shown if some check ins already have one.
+  const showNameColumns = useRoster || checkIns.some(hasName)
+
   const exportCheckIns = () => {
-    const rows = checkIns.map((checkIn) => [
-      checkIn.firstName,
-      checkIn.lastName,
-      checkIn.id,
-      formatDateTime(checkIn.time),
-      checkIn.onRoster ? 'Yes' : 'No',
-    ])
-    const csv = buildCsv(['First Name', 'Last Name', 'ID', 'Time', 'On Roster'], rows)
-    downloadCsv(`check-ins-${todayStamp()}.csv`, csv)
+    let headers
+    let rows
+    if (useRoster) {
+      headers = ['First Name', 'Last Name', 'ID', 'Time', 'On Roster']
+      rows = checkIns.map((checkIn) => [
+        checkIn.firstName,
+        checkIn.lastName,
+        checkIn.id,
+        formatDateTime(checkIn.time),
+        checkIn.onRoster ? 'Yes' : 'No',
+      ])
+    } else if (showNameColumns) {
+      headers = ['First Name', 'Last Name', 'ID', 'Time']
+      rows = checkIns.map((checkIn) => [checkIn.firstName, checkIn.lastName, checkIn.id, formatDateTime(checkIn.time)])
+    } else {
+      headers = ['ID', 'Time']
+      rows = checkIns.map((checkIn) => [checkIn.id, formatDateTime(checkIn.time)])
+    }
+    downloadCsv(`check-ins-${todayStamp()}.csv`, buildCsv(headers, rows))
   }
 
   const exportRoster = () => {
@@ -409,14 +466,36 @@ const AttendanceScanner = () => {
           {/* Right: roster, counts, exports, and the check in list */}
           <div className="col-lg-5">
             <div className="scanner-panel mb-4">
+              <div className="form-check form-switch scanner-switch mb-3">
+                <input
+                  id="use-roster-switch"
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  checked={useRoster}
+                  onChange={handleUseRosterChange}
+                  aria-describedby="use-roster-help"
+                />
+                <label className="form-check-label fw-bold" htmlFor="use-roster-switch">
+                  Use roster
+                </label>
+                <div id="use-roster-help" className="text-muted small">
+                  {useRoster
+                    ? 'Scans are matched to the roster. Unknown IDs ask for a name.'
+                    : 'Scans check in right away with just the ID. No names needed.'}
+                </div>
+              </div>
+
               <div className="scanner-count-row">
                 <div className="scanner-count">
                   <span className="scanner-count-number">
-                    {roster.length > 0 ? `${presentRosterCount} / ${roster.length}` : checkIns.length}
+                    {useRoster && roster.length > 0 ? `${presentRosterCount} / ${roster.length}` : checkIns.length}
                   </span>
-                  <span className="scanner-count-label">{roster.length > 0 ? 'Roster present' : 'Checked in'}</span>
+                  <span className="scanner-count-label">
+                    {useRoster && roster.length > 0 ? 'Roster present' : 'Checked in'}
+                  </span>
                 </div>
-                {roster.length > 0 && (
+                {useRoster && roster.length > 0 && (
                   <div className="scanner-count">
                     <span className="scanner-count-number">{walkInCount}</span>
                     <span className="scanner-count-label">Not on roster</span>
@@ -424,33 +503,37 @@ const AttendanceScanner = () => {
                 )}
               </div>
 
-              <div className="d-flex flex-wrap gap-2 mt-3">
-                <input
-                  ref={rosterInputRef}
-                  id="roster-upload"
-                  type="file"
-                  accept=".csv,text/csv"
-                  className="d-none"
-                  onChange={handleRosterUpload}
-                />
-                <button
-                  type="button"
-                  className="btn btn-outline-dark scanner-big-button"
-                  onClick={() => rosterInputRef.current?.click()}
-                  aria-describedby="roster-help"
-                >
-                  <i className="bi bi-upload me-1" aria-hidden="true"></i>
-                  {roster.length > 0 ? 'Replace roster' : 'Upload roster CSV'}
-                </button>
-                {roster.length > 0 && (
-                  <button type="button" className="btn btn-link text-danger" onClick={removeRoster}>
-                    Remove roster
-                  </button>
-                )}
-              </div>
-              <p id="roster-help" className="text-muted small mt-2 mb-0">
-                CSV columns: ID, First Name, Last Name.
-              </p>
+              {useRoster && (
+                <>
+                  <div className="d-flex flex-wrap gap-2 mt-3">
+                    <input
+                      ref={rosterInputRef}
+                      id="roster-upload"
+                      type="file"
+                      accept=".csv,text/csv"
+                      className="d-none"
+                      onChange={handleRosterUpload}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark scanner-big-button"
+                      onClick={() => rosterInputRef.current?.click()}
+                      aria-describedby="roster-help"
+                    >
+                      <i className="bi bi-upload me-1" aria-hidden="true"></i>
+                      {roster.length > 0 ? 'Replace roster' : 'Upload roster CSV'}
+                    </button>
+                    {roster.length > 0 && (
+                      <button type="button" className="btn btn-link text-danger" onClick={removeRoster}>
+                        Remove roster
+                      </button>
+                    )}
+                  </div>
+                  <p id="roster-help" className="text-muted small mt-2 mb-0">
+                    CSV columns: ID, First Name, Last Name.
+                  </p>
+                </>
+              )}
 
               <hr />
 
@@ -464,15 +547,17 @@ const AttendanceScanner = () => {
                   <i className="bi bi-download me-1" aria-hidden="true"></i>
                   Check ins CSV
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-dark scanner-big-button"
-                  onClick={exportRoster}
-                  disabled={roster.length === 0 && checkIns.length === 0}
-                >
-                  <i className="bi bi-download me-1" aria-hidden="true"></i>
-                  Roster CSV
-                </button>
+                {useRoster && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark scanner-big-button"
+                    onClick={exportRoster}
+                    disabled={roster.length === 0 && checkIns.length === 0}
+                  >
+                    <i className="bi bi-download me-1" aria-hidden="true"></i>
+                    Roster CSV
+                  </button>
+                )}
                 <button
                   type="button"
                   className="btn btn-outline-danger scanner-big-button ms-auto"
@@ -494,27 +579,25 @@ const AttendanceScanner = () => {
                   <table className="table table-sm align-middle mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
+                        {showNameColumns && <th scope="col">First Name</th>}
+                        {showNameColumns && <th scope="col">Last Name</th>}
                         <th scope="col">ID</th>
                         <th scope="col">Time</th>
-                        <th scope="col">On Roster</th>
+                        {useRoster && <th scope="col">On Roster</th>}
                       </tr>
                     </thead>
                     <tbody>
                       {newestFirst.map((checkIn) => (
                         <tr key={checkIn.id}>
-                          <td>{checkIn.firstName}</td>
-                          <td>{checkIn.lastName}</td>
+                          {showNameColumns && <td>{checkIn.firstName}</td>}
+                          {showNameColumns && <td>{checkIn.lastName}</td>}
                           <td className="scanner-id-text">{checkIn.id}</td>
                           <td>{formatTime(checkIn.time)}</td>
-                          <td>
-                            {checkIn.onRoster ? (
-                              'Yes'
-                            ) : (
-                              <span className="scanner-badge-walk-in">No</span>
-                            )}
-                          </td>
+                          {useRoster && (
+                            <td>
+                              {checkIn.onRoster ? 'Yes' : <span className="scanner-badge-walk-in">No</span>}
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
