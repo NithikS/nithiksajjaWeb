@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import NavbarHeader from './components/NavbarHeader.jsx'
 import ContactFooter from './components/ContactFooter.jsx'
@@ -26,6 +27,9 @@ import SROShadow from './pages/teacherPortfolio/SROShadow.jsx'
 import MaryPoppinsObservation from './pages/teacherPortfolio/MaryPoppinsObservation.jsx'
 import AIInClassroom from './pages/teacherPortfolio/AIInClassroom.jsx'
 import FinalReflection from './pages/teacherPortfolio/FinalReflection.jsx'
+
+// Loaded only when /scanner is opened, so the barcode library stays out of the main bundle
+const AttendanceScanner = lazy(() => import('./pages/scanner/AttendanceScanner.jsx'))
 
 function HseServiceRedirect() {
   window.location.replace('https://forms.cloud.microsoft/r/feHHmVp2iH')
@@ -61,6 +65,14 @@ function App() {
         <Route path="/teacherportfolio/experiences/ai-in-classroom" element={<AIInClassroom />} />
         <Route path="/teacherportfolio/final-reflection" element={<FinalReflection />} />
         <Route path="/hseservice" element={<HseServiceRedirect />} />
+        <Route
+          path="/scanner"
+          element={
+            <Suspense fallback={<p className="text-center my-5">Loading scanner...</p>}>
+              <AttendanceScanner />
+            </Suspense>
+          }
+        />
       </Routes>
       <ContactFooter />
     </Router>
