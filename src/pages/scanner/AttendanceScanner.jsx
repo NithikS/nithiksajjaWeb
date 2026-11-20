@@ -333,26 +333,10 @@ const AttendanceScanner = () => {
   // With the roster off, names are only shown if some check ins already have one.
   const showNameColumns = useRoster || checkIns.some(hasName)
 
+  // Check ins CSV is always just ID and time. Names only go in the Roster CSV.
   const exportCheckIns = () => {
-    let headers
-    let rows
-    if (useRoster) {
-      headers = ['First Name', 'Last Name', 'ID', 'Time', 'On Roster']
-      rows = checkIns.map((checkIn) => [
-        checkIn.firstName,
-        checkIn.lastName,
-        checkIn.id,
-        formatDateTime(checkIn.time),
-        checkIn.onRoster ? 'Yes' : 'No',
-      ])
-    } else if (showNameColumns) {
-      headers = ['First Name', 'Last Name', 'ID', 'Time']
-      rows = checkIns.map((checkIn) => [checkIn.firstName, checkIn.lastName, checkIn.id, formatDateTime(checkIn.time)])
-    } else {
-      headers = ['ID', 'Time']
-      rows = checkIns.map((checkIn) => [checkIn.id, formatDateTime(checkIn.time)])
-    }
-    downloadCsv(`check-ins-${todayStamp()}.csv`, buildCsv(headers, rows))
+    const rows = checkIns.map((checkIn) => [checkIn.id, formatDateTime(checkIn.time)])
+    downloadCsv(`check-ins-${todayStamp()}.csv`, buildCsv(['ID', 'Time'], rows))
   }
 
   const exportRoster = () => {
